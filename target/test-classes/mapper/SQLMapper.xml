@@ -25,7 +25,7 @@
         select * from test.lb_case;
     </select>
     <select id="getCaseList" resultType="com.tester.domain.Case">
-        select * from test.lb_case;
+        select * from lb_case;
     </select>
 
     <select id="testc">

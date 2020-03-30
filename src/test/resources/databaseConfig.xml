@@ -10,11 +10,11 @@
                 <!-- 1.加载数据库驱动 -->
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <!-- 2.数据库连接地址 -->
-                <property name="url" value="jdbc:mysql://localhost:3307/test"/>
+                <property name="url" value="jdbc:mysql://rm-8vb58j90l8o3ydhuyxo.mysql.zhangbei.rds.aliyuncs.com:3306/case"/>
                 <!-- 数据库用户... -->
-                <property name="username" value="root"/>
+                <property name="username" value="luobo"/>
                 <!-- 数据库密码... -->
-                <property name="password" value="123456"/>
+                <property name="password" value="llp52638487@"/>
             </dataSource>
         </environment>
     </environments>
