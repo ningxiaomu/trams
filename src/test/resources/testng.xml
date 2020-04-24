@@ -33,9 +33,11 @@
 <!--                    <include name="getUserListInfo"/>-->
 <!--                </methods>-->
 <!--            </class>-->
-            <class name="com.tester.cases.GetCaseList">
+            <class name="com.tester.cases.TestDemo">
                 <method>
-                    <include name="GetCaseList"></include>
+                    <include name="login"></include>
+                    <include name="test01"></include>
+                    <include name="test02"></include>
                 </method>
             </class>
         </classes>

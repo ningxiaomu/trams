@@ -8,6 +8,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.params.CookiePolicy;
+import org.apache.http.cookie.Cookie;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -57,6 +60,7 @@ public class dianZan {
         list.add(basicNameValuePair);
         list.add(basicNameValuePair2);
         list.add(basicNameValuePair3);
+
         //设置关闭后面关闭连接
         httpPost.setHeader("Connection","close");
         // 第二步：我们发现Entity是一个接口，所以只能找实现类，发现实现类又需要一个集合，集合的泛型是NameValuePair类型
@@ -72,19 +76,29 @@ public class dianZan {
         HttpResponse response = client.execute(httpPost);
         HttpEntity entity = response.getEntity();
         String str = EntityUtils.toString(entity, "UTF-8");
+
+        BasicCookieStore cookieStore = new BasicCookieStore();
+
+        List<Cookie> cookies = cookieStore.getCookies();
+        System.out.println(cookies);
+        for(Cookie cookie:cookies){
+            String name = cookie.getName();
+            String value = cookie.getValue();
+            System.out.println("cookies: key= "+ name + "  value= " + value);
+        }
         System.out.println(str);
         // 关闭
 
         String testGetKuid = "http://127.0.0.1:81/zentao/bug-create-1-0-moduleID=0.html";
         String resultKuid;
-    HttpGet get = new HttpGet("https://www.baidu.com");
+//    HttpGet get = new HttpGet("https://www.baidu.com");
 
    // HttpClient client = new DefaultHttpClient();
 
-    HttpResponse response2 = client.execute(get);
-
-    resultKuid = EntityUtils.toString(response2.getEntity(),"utf-8");
-    System.out.println(resultKuid);
+//    HttpResponse response2 = client.execute(get);
+//
+//    resultKuid = EntityUtils.toString(response2.getEntity(),"utf-8");
+//    System.out.println(resultKuid);
 
 
 

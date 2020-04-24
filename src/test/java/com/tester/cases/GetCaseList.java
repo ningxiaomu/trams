@@ -1,16 +1,18 @@
 package com.tester.cases;
 
 import com.tester.domain.Case;
-import com.tester.domain.Project;
-import com.tester.domain.ProjectCase;
+import com.tester.utils.BaseClient;
 import com.tester.utils.DatabaseUtil;
-import org.apache.commons.collections4.MultiValuedMap;
-import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.cookie.Cookie;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.testng.Assert;
@@ -20,245 +22,95 @@ import java.io.IOException;
 import java.util.*;
 
 public class GetCaseList {
-//    @Test(dependsOnGroups = "loginTrue",description = "添加用户接口接口")
-//    @Test(description = "获取用例列表")
-    public void getCaseList() throws IOException, InterruptedException {
-        SqlSession session=DatabaseUtil.getSqlSession();
-//        GetCaseListCase getCaseListCasecase=session.selectOne("getCaseList",1);
-//        Thread.sleep(1000);
-//
-//        String testuri=getCaseListCasecase.getDomain()+getCaseListCasecase.getCaseAddress()+"?"+getCaseListCasecase.getParamter();
-//        System.out.println(testuri);
-//        HttpGet get = new HttpGet(testuri);
-//        HttpClient client = new DefaultHttpClient();
-//        HttpResponse response = client.execute(get);
-//        String testresult;
-//        testresult = EntityUtils.toString(response.getEntity(),"utf-8");
-//        System.out.println(testresult);
 
-        //上面的是可以的
-//        List<GetCaseListCase> caseList = session.selectList("getCaseList");
-//        System.out.println(caseList.get(0).getCaseId());
-        String projectCase_PID= null;
-        String projectCase_CID;
-        String projecturi = null;
-        String projectId=null;
-        String caseuri = null;
-        String caseId = null;
-        String par = null;
-        String testuri = null;
+    private CookieStore cookieStore;
+    @Test
+    public void test6() throws IOException {
+        boolean result ;
+        result = BaseClient.NoNeedLoginClient("testselectone","7e8c8a18845411eaa51100163e0d8570");
+        System.out.println(result);
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void test5() throws IOException {
+        boolean result ;
+        result = BaseClient.NoNeedLoginClient("testselectone","f670be0982ea11eaa51100163e0d8570");
+        System.out.println(result);
+        Assert.assertTrue(result);
+    }
+    @Test
+    public void test4() throws IOException {
+        SqlSession session = DatabaseUtil.getSqlSession();
+        Case caseList =session.selectOne("testselectone","f670be0982ea11eaa51100163e0d8570");
+        System.out.println(caseList);
+        System.out.println(caseList.getDomain());
+    }
+    @Test
+    public void login() throws IOException {
+        String testuri;
+        String projecturi;
+        String caseuri;
+        String method;
         String result=null;
-        Collection<String> val = null;
-        List<String> listVal = null;
-        Map<String,String> mapProject=new HashMap<String,String>();
-        Map<String,String> mapCase=new HashMap<String,String>();
-        MultiValuedMap<String, String> mapProjectCase = new ArrayListValuedHashMap<String,String>();
-
-        List<Project> projectList = session.selectList("getProjectList");
-        List<Case> caseList = session.selectList("getCaseList");
-        List<ProjectCase> projectCaseList = session.selectList("ProjectCaseList");
-        HashMap<String, List<String>> map1 = new HashMap<String, List<String>>();
-        List<String> list = new ArrayList<String>();
-
-        for(int k=0;k<projectCaseList.size();k++){
-            projectCase_PID = projectCaseList.get(k).getProjectId();
-            projectCase_CID = projectCaseList.get(k).getCaseId();
-            System.out.println("ProjectCaseList:"+projectCaseList);
-            System.out.println("projectCase_CID:"+projectCase_CID);
-            list.add(projectCase_CID);
-            System.out.println("list:"+list);
-            mapProjectCase.put(projectCase_PID,projectCase_CID);
-            map1.put(projectCase_PID,list);
-        }
-
-        System.out.println("map1:"+map1);
-        System.out.println("mapProjectCase:"+mapProjectCase);
-        List listProjectCase = new ArrayList(mapProjectCase.keySet());
-        System.out.println("listProjectCase:"+listProjectCase);
-        System.out.println("----------------------------------");
-        for(int j=0;j<projectList.size();j++){
-            projectId = projectCaseList.get(j).getProjectId();
-            projecturi = projectList.get(j).getDomain();
-            mapProject.put(projectId,projecturi);
-        }
-        System.out.println("mapProject:"+mapProject);
-        List listProject = new ArrayList(mapProject.keySet());
-        List listProjectUri = new ArrayList();
-        for(String key : mapProject.keySet()){
-            String value = mapProject.get(key);
-            listProjectUri.add(value);
-        }
-        System.out.println("listProject:"+listProject);
-        System.out.println("----------------------------------");
+        String par;
+        String exresult;
+        String loginaddress;
+        String loginpar;
+        String need_login = null;
+        SqlSession session = DatabaseUtil.getSqlSession();
+        List<Case> caseList =session.selectList("getCaseList");
 
         for (int i = 0; i <caseList.size() ; i++) {
-            caseId = projectCaseList.get(i).getCaseId();
-            caseuri=caseList.get(i).getRequestAddress();
-            mapCase.put(caseId,caseuri);
-        }
-        System.out.println("mapCase:"+mapCase);
-        List listCase = new ArrayList(mapCase.keySet());
-        List listCaseUri = new ArrayList();
-        for(String key : mapCase.keySet()){
-            String value = mapCase.get(key);
-            listCaseUri.add(value);
-        }
-        System.out.println("listCase:"+listCase);
-        System.out.println("----------------------------------");
-        ArrayList<String> urlList = new ArrayList<String>();
-//        map1.forEach((k, v) -> {
-//            for (String path : v) {
-//                urlList.add(String.format("%s%s", mapProject.get(k), mapCase.get(path)));
-//            }
-//        });
-        System.out.println(urlList);
-//        map1.forEach((k, v) -> {
-//            for (String path : v) {
-//                urlList.add(String.format("%s%s", map2.get(k), map3.get(path)));
-//            }
-//        });
+            need_login = caseList.get(i).getNeed_login();
+            DefaultHttpClient client = new DefaultHttpClient();
+            if(need_login.equals("是")){
+                projecturi = caseList.get(i).getDomain();
+                loginaddress = caseList.get(i).getLoginaddress();
+                testuri = projecturi + loginaddress;
+                System.out.println("testuri:"+testuri);
+                loginpar = caseList.get(i).getLoginpar();
+                System.out.println("loginpar:"+loginpar);
+                List<NameValuePair> list = new ArrayList<NameValuePair>();
+                HttpPost httpPost = new HttpPost(testuri);
+                Map<String,String> map =new HashMap();
+                if(loginpar !=null){
+                    String[] result1 = loginpar.split(";");
+                    for (int j = 0; j <result1.length ; j++) {
+                        int index = result1[j].indexOf("=");
+                        map.put(result1[j].substring(0,index),result1[j].substring(index+1));
+                    }
+                }
+                System.out.println("map:"+map);
 
-//
-//        List listResult= new ArrayList();
-//        for (int i = 0; i <listProjectCase.size() ; i++) {
-//            for(int j=0;j<listProjectUri.size();j++){
-//                for(int h=0;h<listCaseUri.size();h++){
-//                    for (String key:mapProjectCase.keySet()) {
-//                        val=mapProjectCase.get(key);
-////                        System.out.println("listProject:"+listProject.get(j));
-////                        String resultUri=key+"-"+val;
-////                        System.out.println("key:"+key);
-////                        System.out.println("val:"+val);
-//                        listVal = (List) val;
-//
-//                        String pu=null;
-//                        if(key==listProject.get(j)){
-//                            pu = (String) listProjectUri.get(j);
-//                            System.out.println("最终的ProjectUri:"+pu);
-//                        }
-//                        String caseUri=null;
-//                        if(listCase.get(h)==listVal.get(i)){
-//                            caseUri = (String) listCaseUri.get(h);
-//                            System.out.println("最终的CaseUri:"+caseUri);
-//                        }
-//
-//                        if(pu!=null&&caseUri!=null){
-//                            String res = pu + caseUri;
-//                            System.out.println("res:"+res);
-//                        }
-//身份查询：http://apis.juhe.cn/idcard/index   http://v.juhe.cn/idcard/index     http://apis.juhe.cn/idcard/index
-//新华字典:http://v.juhe.cn/xhzd/query         http://apis.juhe.cn/xhzd/query    http://v.juhe.cn/xhzd/query
-//周公解梦:http://v.juhe.cn/dream/category     http://v.juhe.cn/dream/category   http://apis.juhe.cn/dream/category
-//彩票开奖:http://apis.juhe.cn/lottery/types   http://apis.juhe.cn/lottery/types http://v.juhe.cn/lottery/types
-//                        listResult.add(res);
-//                        boolean isRepeat = listResult.size() != new HashSet<String>(listResult).size();
-//                        if(isRepeat){
-//                            break;
-//                        }
-//                        System.out.println("最终拼接的结果是:"+listResult);
+                for(Map.Entry<String,String> entry:map.entrySet()){
+                    String key = entry.getKey();
+                    String value = entry.getValue();
+                    System.out.println(key+":"+value);
+                    BasicNameValuePair basicNameValuePair = new BasicNameValuePair(key, value);
+                    list.add(basicNameValuePair);
+                }
+                System.out.println("拼接出来的list:"+list);
+                UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(list);
 
+                httpPost.setEntity(formEntity);
 
-
-
-//                        listResult.add(resultUri);
-//                        boolean isRepeat = listResult.size() != new HashSet<String>(listResult).size();
-//                        if(isRepeat){
-//                            break;
-//                        }
-//                        System.out.println("最终拼接的结果是:"+resultUri);
-
-//                    }
-//                }
-//            }
+                HttpResponse response = client.execute(httpPost);
+                result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                System.out.println("result:"+result);
+                this.cookieStore=client.getCookieStore();
+                List<Cookie> cookieList =cookieStore.getCookies();
+                for(Cookie cookie:cookieList){
+                    String name = cookie.getName();
+                    String value = cookie.getValue();
+                    System.out.println(name+":"+value);
+                }
+            }
         }
 
-//        @MapKey("ProjectId")
-//        @Test(description = "转换为map测试")
-//        public void getAllMap() throws IOException {
-//            SqlSession session=DatabaseUtil.getSqlSession();
-//            MultiValuedMap<String, String> mapProjectCase = new ArrayListValuedHashMap<String,String>();
-//            HashMap<String, List<String>> map1 = new HashMap<String, List<String>>();
-//            Map<String,Map<String,String>> map= session.selectMap("ToMap","CaseId");
-//            System.out.println(map);
-//            List<String> list = new ArrayList<>();
-//            List<String> list1 = new ArrayList<>();
-//            LinkedHashSet<String> list2 = new LinkedHashSet<>();
-//            ArrayList<String> listWithoutDuplicates = new ArrayList<>(list2);
-//
-//            for(Map<String, String> v:map.values()){
-//                for(Map.Entry<String, String> entry : v.entrySet()){
-//                    String mapKey = entry.getKey();
-//                    String mapValue = entry.getValue();
-//                    if(mapKey.equals("ProjectId")){
-//                        list2.add(mapValue);
-//                    }else if(mapKey.equals("CaseId")){
-//                        list1.add(mapValue);
-//                    }
-//                    System.out.println(mapKey+":"+mapValue);
-//                    map1.put(mapValue,list);
-//                }
-//            }
-//            System.out.println(list2);
-//            System.out.println(list1);
-//
-//
-//            System.out.println("---------------------------------");
-//            List<String> list4 = new ArrayList<>();
-//            Map<String,Map<String,String>> mapCase=session.selectMap("getCaseMap","caseId");
-//            System.out.println(mapCase);
-//            Map<String,String> map11 = new HashMap<>();
-////            for(Map<String, String> v:mapCase.values()){
-////                for(Map.Entry<String, String> entry : v.entrySet()){
-////                    String mapKey = entry.getKey();
-////                    String mapValue = entry.getValue();
-////                    System.out.println(mapKey+":"+mapValue);
-////                    if(mapKey.equals("requestAddress")){
-////                        list4.add(mapValue);
-////                    }
-////
-////                }
-////            }
-//            System.out.println("list4:"+list4);
-//            System.out.println("---------------------------------");
-//            Map<String,Map<String,String>> mapProject = session.selectMap("getProjectMap","projectId");
-//            System.out.println(mapProject);
-//
-//            List<String> list3 = new ArrayList<>();
-//            for(Map<String, String> v:mapProject.values()){
-//                for(Map.Entry<String, String> entry : v.entrySet()){
-//                    String mapKey = entry.getKey();
-//                    String mapValue = entry.getValue();
-//                    System.out.println(mapKey+":"+mapValue);
-//                    if(mapKey.equals("domain")){
-//                        list3.add(mapValue);
-//                    }
-//                }
-//            }
-//            System.out.println("list3:"+list3);
-//
-//            String testurl;
-//            for(String key : map.keySet()){
-//                for(String keyCase:mapCase.keySet()){
-//                    if(key.equals(keyCase)){
-//                        System.out.println(key);
-//                        for(Map<String, String> v:mapCase.values()){
-//                            for(Map.Entry<String, String> entry : v.entrySet()){
-//                                String mapKey = entry.getKey();
-//                                String mapValue = entry.getValue();
-//                                if(mapKey.equals("requestAddress")){
-//                                    testurl = mapValue;
-//                                    System.out.println("testurl:"+testurl);
-//                                }
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
-//
-//        }
+    }
 
-        @Test
+
+    @Test
     public void test1() throws IOException {
         String testuri;
         String projecturi;
@@ -267,6 +119,7 @@ public class GetCaseList {
         String result=null;
         String par;
         String exresult;
+        String need_login;
 
             SqlSession session=DatabaseUtil.getSqlSession();
             List<Case> caseList = session.selectList("getCaseList");
@@ -277,8 +130,10 @@ public class GetCaseList {
                 method = caseList.get(i).getMethod();
                 par = caseList.get(i).getParameter();
                 exresult = caseList.get(i).getExResult();
+                need_login = caseList.get(i).getNeed_login();
                 boolean flag = true;
-                if(method.equals("get") &&par==null){
+                //不需要依赖登录的接口
+                if(need_login.equals("否")&&method.equals("get") &&par==null){
                     HttpGet httpGet = new HttpGet(testuri);
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response = client.execute(httpGet);
@@ -287,8 +142,13 @@ public class GetCaseList {
                     System.out.println(result.contains(exresult));
                     Assert.assertTrue(result.contains(exresult));
 
-                }else if(method.equals("get") &&par!=null){
+                }else if(need_login.equals("否")&&method.equals("get") &&par!=null){
                     testuri = projecturi + caseuri + "?" +par;
+                    //String finalUri = URLEncoder.encode(testuri);
+                    testuri = testuri.replaceAll(" ", "%3F");
+                    //String finallyuri = new String(testuri);
+                    System.out.println(testuri);
+
                     HttpGet httpGet = new HttpGet(testuri);
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response = client.execute(httpGet);
@@ -297,7 +157,7 @@ public class GetCaseList {
                     System.out.println(result.contains(exresult));
                     Assert.assertTrue(result.contains(exresult));
                 }
-                else if(method.equals("post")&&par==null){
+                else if(need_login.equals("否")&&method.equals("post")&&par==null){
                     testuri = projecturi + caseuri;
                     HttpPost httpPost = new HttpPost(testuri);
                     HttpClient client = new DefaultHttpClient();
@@ -306,7 +166,7 @@ public class GetCaseList {
                     System.out.println(result);
                     System.out.println(result.contains(exresult));
                     Assert.assertTrue(result.contains(exresult));
-                }else if(method.equals("post") && par!= null){
+                }else if(need_login.equals("否")&&method.equals("post") && par!= null){
                     testuri = projecturi + caseuri + "?" +par;
                     HttpPost httpPost = new HttpPost(testuri);
                     HttpClient client = new DefaultHttpClient();
@@ -322,31 +182,37 @@ public class GetCaseList {
         public void test2(){
         Assert.assertEquals(1,1);
     }
+        @Test(dependsOnMethods = "login")
+        public void test3() throws IOException {
+            String testuri;
+            String projecturi;
+            String caseuri;
+            String method;
+            String result=null;
+            String par;
+            String exresult;
+            String loginaddress;
+            String loginpar;
+            String need_login = null;
+            SqlSession session = DatabaseUtil.getSqlSession();
+            List<Case> caseList =session.selectList("getCaseList");
+            for (int i = 0; i <caseList.size() ; i++) {
+                need_login = caseList.get(i).getNeed_login();
+                DefaultHttpClient client = new DefaultHttpClient();
+                if(need_login.equals("是")){
+                    projecturi = caseList.get(i).getDomain();
+                    caseuri = caseList.get(i).getRequestAddress();
+                    testuri = projecturi + caseuri;
+                    HttpGet httpGet = new HttpGet(testuri);
+                    client.setCookieStore(this.cookieStore);
+                    HttpResponse response = client.execute(httpGet);
+                    result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                    System.out.println(result);
+                }
+            }
+        }
     }
 
-//    public void addUser() throws IOException, InterruptedException {
-//
-//        SqlSession session = DatabaseUtil.getSqlSession();
-//        AddUserCase addUserCase = session.selectOne("addUserCase",1);
-//        System.out.println(addUserCase.toString());
-//        System.out.println(TestConfig.addUserUrl);
 
-//        //下边的代码为写完接口的测试代码
-//        String result = getResult(addUserCase);
-//
-//        /**
-//         * 可以先讲
-//         */
-//        //查询用户看是否添加成功
-//        Thread.sleep(2000);
-//        User user = session.selectOne("addUser",addUserCase);
-//        System.out.println(user.toString());
-//
-//
-//        //处理结果，就是判断返回结果是否符合预期
-//        Assert.assertEquals(addUserCase.getExpected(),result);
-//
-//
-//    }
 
 

@@ -1,9 +1,9 @@
 package com.tester.cases;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
+import java.util.*;
 
 public class test {
 //    public static void main(String[] args) {
@@ -70,4 +70,41 @@ public class test {
 //
 //
 //    }
+//    @Test
+//    public void test1() throws IOException {
+//        BaseClient baseClient = new BaseClient();
+//        String result=baseClient.ClientByGet("getCaseList");
+//        System.out.println(result);
+//    }
+//    @Test
+//    public void test2() throws IOException {
+//        BaseClient baseClient = new BaseClient();
+//        String result=baseClient.ClientByPost("getCaseList");
+//        System.out.println(result);
+//    }
+public static void main(String[] args) {
+    List<NameValuePair> list = new ArrayList<NameValuePair>();
+    String data = "username=admin;password=e10adc3949ba59abbe56e057f20f883e;refer=/zentao/";
+    Map<String,String> map =new HashMap();
+    if(data !=null){
+        String[] result = data.split(";");
+        for (int i = 0; i <result.length ; i++) {
+            int index = result[i].indexOf("=");
+            map.put(result[i].substring(0,index),result[i].substring(index+1));
+        }
+    }
+    System.out.println(map);
+
+    for(Map.Entry<String,String> entry:map.entrySet()){
+        String key = entry.getKey();
+        String value = entry.getValue();
+        System.out.println(key+":"+value);
+        BasicNameValuePair basicNameValuePair = new BasicNameValuePair(key, value);
+        list.add(basicNameValuePair);
+    }
+    System.out.println(list);
+}
+
+
+
 }

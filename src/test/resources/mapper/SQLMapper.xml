@@ -4,28 +4,37 @@
 <!-- 命名空间mapper,如果有多个mapper文件，这个必须唯一 -->
 <mapper namespace="com.tester.domain">
 
-    <!--    查找所有项目-->
-    <select id="getProjectList" resultType="com.tester.domain.Project">
-        select * from test.lb_project;
+    <!--获取最后表里的最后一条记录-->
+    <select id="getLastCase"  resultType="String">
+        select caseId from lb_case ORDER BY caseId asc LIMIT 1;
     </select>
-    <!--    查找所有项目-->
-    <select id="getProjectMap" resultType="map">
-        select * from test.lb_project;
+
+    <!-- 通过用例id去查找这条数据-->
+    <select id="findCaseById" parameterType="String" resultType="com.tester.domain.Case">
+        select * from lb_case where caseId=#{caseId};
     </select>
-    <!--    查找关联表-->
-    <select id="ProjectCaseList" resultType="com.tester.domain.ProjectCase">
-        select * from test.lb_projectandcase;
-    </select>
-    <!--转换为map测试-->
-    <select id="ToMap" resultType="map">
-        select * from test.lb_projectandcase;
-    </select>
-<!--    查找所有用例-->
-    <select id="getCaseMap" resultType="map">
-        select * from test.lb_case;
-    </select>
+
+    <!-- 通过用例id去删除一条记录-->
+    <delete id="deleteCaseById" >
+        delete from lb_case where caseId=#{caseId};
+    </delete>
+
+    <!--  更新用例接口-->
+    <update id="updateCaseById">
+        update lb_case set caseId=#{caseId},caseName=#{caseName} where caseId=#{caseId};
+    </update>
+    <!--    插入用例接口-->
+    <insert id="insertCase">
+        insert lb_case(`caseId`,`caseName`,`project`,`domain`,`requestAddress`,`method`,`contentType`,`parameter`,`exResult`,`status`) values('12123','123','131','131','131','131','131','131','1323',1313);
+    </insert>
+
+    <!--    获取所有的用例-->
     <select id="getCaseList" resultType="com.tester.domain.Case">
-        select * from lb_case;
+        SELECT * FROM `mycase`;
+    </select>
+    <!--测试selectOne-->
+    <select id="testselectone" parameterType="String" resultType="com.tester.domain.Case">
+        select * from `mycase` where caseid=#{caseid} and status =1;
     </select>
 
     <select id="testc">

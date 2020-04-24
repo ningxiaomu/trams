@@ -2,18 +2,52 @@ package com.tester.domain;
 
 public class Case {
     //caseId,caseName,requestAddress,method,contentType,parameter,exResult,status
-    private String caseId;
+    private String caseid;
     private String caseName;
+    private String project;
     private String domain;
-
-
-
     private String requestAddress;
     private String method;
     private String contentType;
+    private String need_login;
+    private String loginaddress;
+    private String loginpar;
     private String parameter;
     private String exResult;
     private Integer status;
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
+    }
+
+    public String getNeed_login() {
+        return need_login;
+    }
+
+    public void setNeed_login(String need_login) {
+        this.need_login = need_login;
+    }
+
+    public String getLoginaddress() {
+        return loginaddress;
+    }
+
+    public void setLoginaddress(String loginaddress) {
+        this.loginaddress = loginaddress;
+    }
+
+    public String getLoginpar() {
+        return loginpar;
+    }
+
+    public void setLoginpar(String loginpar) {
+        this.loginpar = loginpar;
+    }
+
     public String getDomain() {
         return domain;
     }
@@ -22,12 +56,12 @@ public class Case {
         this.domain = domain;
     }
 
-    public String getCaseId() {
-        return caseId;
+    public String getCaseid() {
+        return caseid;
     }
 
-    public void setCaseId(String caseId) {
-        this.caseId = caseId;
+    public void setCaseid(String caseid) {
+        this.caseid = caseid;
     }
 
     public String getCaseName() {
@@ -89,12 +123,16 @@ public class Case {
     @Override
     public String toString() {
         return "Case{" +
-                "caseId='" + caseId + '\'' +
+                "caseid='" + caseid + '\'' +
                 ", caseName='" + caseName + '\'' +
+                ", project='" + project + '\'' +
                 ", domain='" + domain + '\'' +
                 ", requestAddress='" + requestAddress + '\'' +
                 ", method='" + method + '\'' +
                 ", contentType='" + contentType + '\'' +
+                ", need_login='" + need_login + '\'' +
+                ", loginaddress='" + loginaddress + '\'' +
+                ", loginpar='" + loginpar + '\'' +
                 ", parameter='" + parameter + '\'' +
                 ", exResult='" + exResult + '\'' +
                 ", status=" + status +
