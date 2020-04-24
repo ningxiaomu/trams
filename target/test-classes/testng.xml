@@ -38,6 +38,7 @@
                     <include name="login"></include>
                     <include name="test01"></include>
                     <include name="test02"></include>
+                    <include name="test03"></include>
                 </method>
             </class>
         </classes>
