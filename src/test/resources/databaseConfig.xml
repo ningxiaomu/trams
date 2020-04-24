@@ -13,7 +13,7 @@
 <!--                外网连接-->
 <!--                <property name="url" value="jdbc:mysql://rm-8vb58j90l8o3ydhuyxo.mysql.zhangbei.rds.aliyuncs.com:3306/case"/>-->
 <!--                内网连接-->
-                <property name="url" value="jdbc:mysql://rm-8vb58j90l8o3ydhuy58870.mysql.zhangbei.rds.aliyuncs.com/case"/>
+                <property name="url" value="jdbc:mysql://rm-8vb58j90l8o3ydhuy58870.mysql.zhangbei.rds.aliyuncs.com:3306/case"/>
                 <!-- 数据库用户... -->
                 <property name="username" value="luobo"/>
                 <!-- 数据库密码... -->
