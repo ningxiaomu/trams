@@ -29,7 +29,7 @@ public class TestDemo {
 
     //这条用例是用来登陆的，某些接口会依赖登陆
     //取一条里面有登陆地址，登陆参数的接口
-   // @Test
+    @Test
     public void login() throws IOException {
         String result = null;
         //建立session连接
@@ -90,12 +90,12 @@ public class TestDemo {
         }
     }
 
-    //@Test(dependsOnMethods = "login")
+    @Test(dependsOnMethods = "login")
     public void test01() throws IOException {
         flag= BaseClient.NeedLoginClient("testselectone","ca5cde5183b111eaa51100163e0d8570",this.cookieStore);
         Assert.assertTrue(flag);
     }
-    //@Test(dependsOnMethods = "login")
+    @Test(dependsOnMethods = "login")
     public void test02() throws IOException{
         flag = BaseClient.NeedLoginClient("testselectone","37b3c06c83e611eaa51100163e0d8570",this.cookieStore);
         Assert.assertTrue(flag);
