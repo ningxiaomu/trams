@@ -1,5 +1,6 @@
 package com.tester.cases;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.tester.domain.Case;
 import com.tester.utils.BaseClient;
 import com.tester.utils.DatabaseUtil;
@@ -23,29 +24,29 @@ import java.util.List;
 import java.util.Map;
 
 
-public class TestDemo {
+public class ZenDao {
     private CookieStore cookieStore;
     private boolean flag;
 
     //这条用例是用来登陆的，某些接口会依赖登陆
-    //取一条里面有登陆地址，登陆参数的接口
+    //取登录用例的case
     @Test
     public void login() throws IOException {
         String result = null;
         //建立session连接
         SqlSession session = DatabaseUtil.getSqlSession();
         //获取用例
-        Case caseInfo = session.selectOne("testselectone","37b3c06c83e611eaa51100163e0d8570");
+        Case caseInfo = session.selectOne("testOne","e5e468b986f311eaa51100163e0d8570");
         try{
             //获取登录接口的地址
-            String testuri = caseInfo.getDomain() + caseInfo.getLoginaddress();
+            String testuri = caseInfo.getDomain() + caseInfo.getRequestAddress();
             //建立client 连接
             DefaultHttpClient client = new DefaultHttpClient();
             //创建post请求
             HttpPost httpPost = new HttpPost(testuri);
             HttpResponse response = null;
             //获取请求的参数
-            String par = caseInfo.getLoginpar();
+            String par = caseInfo.getParameter();
             List<NameValuePair> list = new ArrayList<NameValuePair>();
             Map<String,String> map = new HashMap<String,String>();
             if(par!=null){
@@ -88,22 +89,18 @@ public class TestDemo {
         }catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println("登录结果:"+result);
     }
 
     @Test(dependsOnMethods = "login")
     public void test01() throws IOException {
-        flag= BaseClient.NeedLoginClient("testselectone","ca5cde5183b111eaa51100163e0d8570",this.cookieStore);
+        flag= BaseClient.NeedLoginClient("testOne","ca5cde5183b111eaa51100163e0d8570",this.cookieStore);
         Assert.assertTrue(flag);
     }
     @Test(dependsOnMethods = "login")
     public void test02() throws IOException{
-        flag = BaseClient.NeedLoginClient("testselectone","37b3c06c83e611eaa51100163e0d8570",this.cookieStore);
+        flag = BaseClient.NeedLoginClient("testOne","37b3c06c83e611eaa51100163e0d8570",this.cookieStore);
         Assert.assertTrue(flag);
-    }
-    @Test
-    public void test3(){
-        boolean f = true;
-        Assert.assertTrue(f);
     }
 }
 

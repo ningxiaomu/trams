@@ -3,37 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 命名空间mapper,如果有多个mapper文件，这个必须唯一 -->
 <mapper namespace="com.tester.domain">
-
-    <!--获取最后表里的最后一条记录-->
-    <select id="getLastCase"  resultType="String">
-        select caseId from lb_case ORDER BY caseId asc LIMIT 1;
-    </select>
-
-    <!-- 通过用例id去查找这条数据-->
-    <select id="findCaseById" parameterType="String" resultType="com.tester.domain.Case">
-        select * from lb_case where caseId=#{caseId};
-    </select>
-
-    <!-- 通过用例id去删除一条记录-->
-    <delete id="deleteCaseById" >
-        delete from lb_case where caseId=#{caseId};
-    </delete>
-
-    <!--  更新用例接口-->
-    <update id="updateCaseById">
-        update lb_case set caseId=#{caseId},caseName=#{caseName} where caseId=#{caseId};
-    </update>
-    <!--    插入用例接口-->
-    <insert id="insertCase">
-        insert lb_case(`caseId`,`caseName`,`project`,`domain`,`requestAddress`,`method`,`contentType`,`parameter`,`exResult`,`status`) values('12123','123','131','131','131','131','131','131','1323',1313);
-    </insert>
-
-    <!--    获取所有的用例-->
-    <select id="getCaseList" resultType="com.tester.domain.Case">
-        SELECT * FROM `mycase`;
-    </select>
-    <!--测试selectOne-->
-    <select id="testselectone" parameterType="String" resultType="com.tester.domain.Case">
+    <!--测试某一条用例-->
+    <select id="testOne" parameterType="String" resultType="com.tester.domain.Case">
         select * from `mycase` where caseid=#{caseid} and status =1;
     </select>
 
@@ -42,100 +13,5 @@
         inner join aa on cc.cpid = aa.cid
         inner join bb on cc.pcid = bb.pid
     </select>
-
-    <!--获取登陆接口case-->
-    <select id="loginCase" parameterType="Integer"  resultType="com.tester.model.LoginCase">
-
-        select * from login
-        where id = #{id};
-    </select>
-    <!--获取测试用例case-->
-    <select id="getCaseList1"  resultType="com.tester.model.GetCaseListCase">
-        select * from `case`;
-    </select>
-    <!--添加用户接口case-->
-    <select id="addUserCase" parameterType="Integer" resultType="com.tester.model.AddUserCase">
-        select * from addUserCase where id=#{id};
-    </select>
-
-    <!--获取用户信息case-->
-    <select id="getUserInfoCase" parameterType="Integer" resultType="com.tester.model.GetUserInfoCase">
-        <!-- SQL语句 -->
-        select * from getUserInfoCase where id=#{id};
-    </select>
-
-    <!--获取用户列表case-->
-    <select id="getUserListCase" parameterType="Integer" resultType="com.tester.model.GetUserListCase">
-        <!-- SQL语句 -->
-        select * from getUserListCase where id=#{id};
-    </select>
-
-    <!--更新/删除用户信息case-->
-    <select id="updateUserInfoCase" parameterType="Integer" resultType="com.tester.model.UpdateUserInfoCase">
-        select * from updateUserInfoCase where id = #{id};
-    </select>
-
-
-    <!--添加用户接口-->
-    <select id="addUser" parameterType="com.tester.model.AddUserCase" resultType="com.tester.model.user">
-        select * from user where
-        userName=#{userName}
-        and password=#{password}
-        and sex=#{sex}
-        and age=#{age}
-        and permission=#{permission}
-        and isDelete=#{isDelete};
-
-    </select>
-
-    <!--获取用户信息-->
-    <select id="getUserInfo" parameterType="com.tester.model.GetUserInfoCase" resultType="com.tester.model.user">
-        <!-- SQL语句 -->
-        select * from user where
-        id=#{userId};
-    </select>
-
-    <!--获取用户列表-->
-    <select id="getUserList" parameterType="com.tester.model.GetUserListCase" resultType="com.tester.model.user">
-        <!-- SQL语句 -->
-        select * from user
-        <trim prefix="WHERE" prefixOverrides="and">
-            <if test="null != userName and '' !=userName">
-                AND userName=#{userName}
-            </if>
-            <if test="null != sex and '' !=sex">
-                AND sex=#{sex}
-            </if>
-            <if test="null != age and '' !=age">
-                AND age=#{age}
-            </if>
-
-        </trim>
-        ;
-    </select>
-
-    <!--获取更新后的数据-->
-    <select id="getUpdateUserInfo" parameterType="com.tester.model.UpdateUserInfoCase" resultType="com.tester.model.user">
-        select * from user
-        <trim prefix="WHERE" prefixOverrides="and">
-            <if test="null != userName and '' !=userName">
-                AND userName=#{userName}
-            </if>
-            <if test="null != sex and '' !=sex">
-                AND sex=#{sex}
-            </if>
-            <if test="null != age and '' !=age">
-                AND age=#{age}
-            </if>
-            <if test="null != permission and '' !=permission">
-                AND permission=#{permission}
-            </if>
-            <if test="null != isDelete and '' !=isDelete">
-                AND isDelete=#{isDelete}
-            </if>
-        </trim>
-       And id = #{userId};
-    </select>
-
 
 </mapper>

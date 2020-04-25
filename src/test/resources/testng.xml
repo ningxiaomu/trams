@@ -2,45 +2,30 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 
-<suite name="用户管理系统测试套件">
+<suite name="ZenDao_聚合数据测试">
 
-    <test name="用户管理系统测试用例">
+    <test name="ZenDao_聚合数据测试">
         <classes>
-<!--            <class name="com.tester.cases.LoginTest">-->
-<!--                <methods>-->
-<!--                    <include name="loginTrue"/>-->
-<!--                    <include name="loginFalse"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-            <!--<class name="com.tester.cases.AddUserTest">-->
-                <!--<methods>-->
-                    <!--<include name="addUser"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="com.tester.cases.GetUserInfoTest">-->
-                <!--<methods>-->
-                    <!--<include name="getUserInfo"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-            <!--<class name="com.tester.cases.UpdateUserInfoTest">-->
-                <!--<methods>-->
-                    <!--<include name="updateUserInfo"/>-->
-                    <!--<include name="deleteUser"/>-->
-                <!--</methods>-->
-            <!--</class>-->
-
-<!--            <class name="com.tester.cases.GetUserInfoListTest">-->
-<!--                <methods>-->
-<!--                    <include name="getUserListInfo"/>-->
-<!--                </methods>-->
-<!--            </class>-->
-            <class name="com.tester.cases.TestDemo">
-                <method>
+            <class name="com.tester.cases.ZenDao">
+                <methods>
                     <include name="login"></include>
                     <include name="test01"></include>
                     <include name="test02"></include>
                     <include name="test03"></include>
-                </method>
+                </methods>
+            </class>
+            <class name="com.tester.cases.JuHe_Api">
+                <methods>
+                    <include name="LotteryResultsQuery"></include>
+                    <include name="IDCardQuery"></include>
+                </methods>
+            </class>
+            <class name="com.tester.cases.JuHe_V">
+                <methods>
+                    <include name="JokeQuery"></include>
+                    <include name="XinhuaDictionaryy"></include>
+                    <include name="BookClassification"></include>
+                </methods>
             </class>
         </classes>
 
