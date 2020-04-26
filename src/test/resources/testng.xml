@@ -23,7 +23,7 @@
             <class name="com.tester.cases.JuHe_V">
                 <methods>
                     <include name="JokeQuery"></include>
-                    <include name="XinhuaDictionaryy"></include>
+<!--                    <include name="XinhuaDictionaryy"></include>-->
                     <include name="BookClassification"></include>
                 </methods>
             </class>
