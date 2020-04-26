@@ -306,6 +306,9 @@ public class BaseClient {
         //判断caseinfo里的预期结果是否在result里存在
         String exresult = caseInfo.getExResult();
         flag = result.contains(exresult);
+        if(flag=false){
+            System.out.println("失败用例的返回结果为："+result);
+        }
         return flag;
     }
 
