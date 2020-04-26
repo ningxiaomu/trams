@@ -63,6 +63,7 @@ public class ZenDao {
                 BasicNameValuePair basicNameValuePair = new BasicNameValuePair(key, value);
                 list.add(basicNameValuePair);
             }
+            System.out.println("list:"+list);
             //创建表单Entity对象
             UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(list,"UTF-8");
             //设置表单Entity对象到POST请求中去

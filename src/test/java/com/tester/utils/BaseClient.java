@@ -191,7 +191,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
-                        //System.out.println("result:"+result);
+                        System.out.println("result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -217,7 +217,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200 ||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
-                       // System.out.println("result:"+result);
+                        System.out.println("result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -241,7 +241,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
-                        //System.out.println("result:"+result);
+                        System.out.println("result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -288,7 +288,7 @@ public class BaseClient {
                     //判断返回的状态码
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
-                        //System.out.println("result:"+result);
+                        System.out.println("result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -305,10 +305,8 @@ public class BaseClient {
         }
         //判断caseinfo里的预期结果是否在result里存在
         String exresult = caseInfo.getExResult();
+        System.out.println("exresult:"+exresult);
         flag = result.contains(exresult);
-        if(flag=false){
-            System.out.println("失败用例的返回结果为："+result);
-        }
         return flag;
     }
 
