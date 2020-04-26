@@ -6,14 +6,14 @@
 
     <test name="ZenDao_聚合数据测试">
         <classes>
-            <class name="com.tester.cases.ZenDao">
-                <methods>
-                    <include name="login"></include>
-                    <include name="test01"></include>
-                    <include name="test02"></include>
-                    <include name="test03"></include>
-                </methods>
-            </class>
+<!--            <class name="com.tester.cases.ZenDao">-->
+<!--                <methods>-->
+<!--                    <include name="login"></include>-->
+<!--                    <include name="test01"></include>-->
+<!--                    <include name="test02"></include>-->
+<!--                    <include name="test03"></include>-->
+<!--                </methods>-->
+<!--            </class>-->
             <class name="com.tester.cases.JuHe_Api">
                 <methods>
                     <include name="LotteryResultsQuery"></include>
