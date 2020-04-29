@@ -128,9 +128,10 @@ public class ZenDao {
             // 把一个普通参数和文件上传给下面这个地址 是一个servlet
             HttpPost httpPost = new HttpPost("http://39.108.184.169:8082/zentao/bug-create-1-0-moduleID=0.html");
 //            httpPost.setHeader("Content-type","multipart/form-data");
-
+            String Path = SystemTest.class.getClassLoader().getResource("").toString()+"testFiles/test.jpeg";
+            System.out.println("Path"+Path);
             // 把文件转换成流对象FileBody
-            FileBody bin = new FileBody(new File("C:\\Users\\Administrator\\IdeaProjects\\trams\\src\\test\\resources\\testFiles\\test.jpeg"));
+            FileBody bin = new FileBody(new File(Path));
             System.out.println("bin:"+bin);
 
             //开始
