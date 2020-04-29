@@ -1,6 +1,5 @@
 package com.tester.cases;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import com.tester.domain.Case;
 import com.tester.utils.BaseClient;
 import com.tester.utils.DatabaseUtil;
@@ -8,16 +7,21 @@ import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.SqlSession;
@@ -28,22 +32,22 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-
-public class ZenDao {
-    private CookieStore cookieStore;
+public class SystemTest {
+    //主要测试后台系统
     private boolean flag;
-
-    //这条用例是用来登陆的，某些接口会依赖登陆
-    //取登录用例的case
+    private CookieStore cookieStore;
     @Test
     public void login() throws IOException {
         String result = null;
         //建立session连接
         SqlSession session = DatabaseUtil.getSqlSession();
         //获取用例
-        Case caseInfo = session.selectOne("testOne","e5e468b986f311eaa51100163e0d8570");
+        Case caseInfo = session.selectOne("testOne","a0f5032787cf11eaa51100163e0d8570");
         try{
             //获取登录接口的地址
             String testuri = caseInfo.getDomain() + caseInfo.getRequestAddress();
@@ -99,99 +103,40 @@ public class ZenDao {
         }
         System.out.println("登录结果:"+result);
     }
-
     @Test(dependsOnMethods = "login")
-    public void test01() throws IOException {
-        flag= BaseClient.NeedLoginClient("testOne","ca5cde5183b111eaa51100163e0d8570",this.cookieStore);
-        Assert.assertTrue(flag);
-    }
-    @Test(dependsOnMethods = "login")
-    public void test02() throws IOException{
-        flag = BaseClient.NeedLoginClient("testOne","37b3c06c83e611eaa51100163e0d8570",this.cookieStore);
+    public void test_findAllProject() throws IOException {
+        //查找项目接口
+        flag= BaseClient.NeedLoginClient("testOne","139000f5889c11eaa51100163e0d8570",this.cookieStore);
         Assert.assertTrue(flag);
     }
 
 
+
     @Test(dependsOnMethods = "login")
-    public void test_addBug(){
-        //提交bug 并添加附件
+    public void test_upload() {
         DefaultHttpClient httpClient = null;
         CloseableHttpResponse response = null;
-        long time = new Date().getTime();
-        String Time = String.valueOf(time);
-        String result1="";
-
         try {
             httpClient = new DefaultHttpClient();
             httpClient.setCookieStore(cookieStore);
 
             // 把一个普通参数和文件上传给下面这个地址 是一个servlet
-            HttpPost httpPost = new HttpPost("http://39.108.184.169:8082/zentao/bug-create-1-0-moduleID=0.html");
+            HttpPost httpPost = new HttpPost("http://39.101.203.223:8080/file/upload");
 //            httpPost.setHeader("Content-type","multipart/form-data");
 
             // 把文件转换成流对象FileBody
             FileBody bin = new FileBody(new File("C:\\Users\\Administrator\\IdeaProjects\\trams\\src\\test\\resources\\testFiles\\test.jpeg"));
             System.out.println("bin:"+bin);
 
-            //开始
-            StringBody product = new StringBody("1", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody module = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody project = new StringBody("", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody openedBuild = new StringBody("trunk", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody assignedTo = new StringBody("luo", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody deadline = new StringBody("", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody type = new StringBody("codeerror", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody os = new StringBody("", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody browser = new StringBody("", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody title = new StringBody(Time, ContentType.create("text/plain", Consts.UTF_8));
-            StringBody color = new StringBody("", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody severity = new StringBody("3", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody pri = new StringBody("3", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody steps = new StringBody("<p>内容</p>", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody story = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody task = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody oldTaskID = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody mailto = new StringBody("", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody keywords = new StringBody("", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody status = new StringBody("active", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody uid = new StringBody("5ea67c4ada7ff", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody result = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody caseVersion = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody testtask = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-            StringBody case1 = new StringBody("0", ContentType.create("text/plain", Consts.UTF_8));
-
-            //结束
 
 
+//            StringBody password = new StringBody("123456", ContentType.create(
+//                    "text/plain", Consts.UTF_8));
 
             HttpEntity reqEntity = MultipartEntityBuilder.create()
                     // 相当于<input type="file" name="upload"/>
-                    .addPart("files[]", bin)
-                    .addPart("product",product)
-                    .addPart("module",module)
-                    .addPart("project",project)
-                    .addPart("openedBuild[]",openedBuild)
-                    .addPart("assignedTo",assignedTo)
-                    .addPart("deadline",deadline)
-                    .addPart("type",type)
-                    .addPart("os",os)
-                    .addPart("browser",browser)
-                    .addPart("title",title)
-                    .addPart("color",color)
-                    .addPart("severity",severity)
-                    .addPart("pri",pri)
-                    .addPart("steps",steps)
-                    .addPart("story",story)
-                    .addPart("task",task)
-                    .addPart("oldTaskID",oldTaskID)
-                    .addPart("mailto[]",mailto)
-                    .addPart("keywords",keywords)
-                    .addPart("status",status)
-                    .addPart("uid",uid)
-                    .addPart("case",case1)
-                    .addPart("caseVersion",caseVersion)
-                    .addPart("result",result)
-                    .addPart("testtask",testtask)
+                    .addPart("upload", bin)
+
 
                     // 相当于<input type="text" name="userName" value=userName>
 //                    .addPart("userName", userName)
@@ -203,7 +148,7 @@ public class ZenDao {
             // 发起请求 并返回请求的响应
             response = httpClient.execute(httpPost);
 
-//            System.out.println("The response value of token:" + response.getFirstHeader("token"));
+            System.out.println("The response value of token:" + response.getFirstHeader("token"));
 
             // 获取响应对象
             HttpEntity resEntity = response.getEntity();
@@ -212,16 +157,8 @@ public class ZenDao {
                 // 打印响应长度
                 System.out.println("Response content length: " + resEntity.getContentLength());
                 // 打印响应内容
-                result1 = EntityUtils.toString(resEntity, Charset.forName("UTF-8"));
-//                System.out.println(EntityUtils.toString(resEntity, Charset.forName("UTF-8")));
+                System.out.println(EntityUtils.toString(resEntity, Charset.forName("UTF-8")));
             }
-
-            if(result1.contains("保存成功")){
-                flag = true;
-            }else {
-                flag = false;
-            }
-
 
             // 销毁
 //            EntityUtils.consume(resEntity);
@@ -245,7 +182,74 @@ public class ZenDao {
             }
         }
 
+
+
+
+    }
+
+    @Test(dependsOnMethods = "login")
+    public void test_json() throws IOException {
+        String url = "http://39.101.203.223:8080/project/saveProject";
+        //{"projectName":"t01","domain":"t02","projectDesc":"","status":"1"}
+        //{"result":true}
+        //Content-Type: application/json;charset=utf-8
+        //设置请求超时时间
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setSocketTimeout(60000)
+                .setConnectTimeout(60000)
+                .setConnectionRequestTimeout(60000)
+                .build();
+        String response = null;
+        //建立session连接
+        SqlSession session = DatabaseUtil.getSqlSession();
+        //获取用例
+        Case caseInfo = session.selectOne("testOne","cacb36f1894111eaa51100163e0d8570");
+        String par = caseInfo.getParameter();
+        System.out.println(par);
+        JSONObject jsonObject = new JSONObject();
+        try{
+            DefaultHttpClient httpClient = new DefaultHttpClient();
+            httpClient.setCookieStore(cookieStore);
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.setConfig(requestConfig);
+            if(par!=null){
+                String[] result1 = par.split(";");
+                for (int j = 0; j <result1.length ; j++) {
+                    int index = result1[j].indexOf("=");
+                    jsonObject.put(result1[j].substring(0,index),result1[j].substring(index+1));
+                }
+            }
+            System.out.println(jsonObject);
+
+
+            StringEntity entity = new StringEntity(jsonObject.toString(),"utf-8");
+            System.out.println("entity:"+entity);
+            entity.setContentEncoding("UTF-8");
+            entity.setContentType("application/json");
+            httpPost.setEntity(entity);
+            System.out.println();
+
+            HttpResponse response1 = httpClient.execute(httpPost);
+            System.out.println(response1.getStatusLine().getStatusCode());
+            if(response1.getStatusLine().getStatusCode()==200||response1.getStatusLine().getStatusCode()==302){
+                HttpEntity he = response1.getEntity();
+                response = EntityUtils.toString(he,"UTF-8");
+
+            }
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        System.out.println(response);
+
+    }
+
+    @Test(dependsOnMethods = "login")
+    public void test_addProject() throws IOException {
+        flag = BaseClient.NeedLoginClient("testOne","cacb36f1894111eaa51100163e0d8570",this.cookieStore);
         Assert.assertTrue(flag);
     }
-}
 
+
+}

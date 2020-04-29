@@ -2,18 +2,24 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 
-<suite name="ZenDao_聚合数据测试">
+<suite name="ClientTest">
 
-    <test name="ZenDao_聚合数据测试">
+    <test name="ClientTest">
         <classes>
-<!--            <class name="com.tester.cases.ZenDao">-->
-<!--                <methods>-->
-<!--                    <include name="login"></include>-->
-<!--                    <include name="test01"></include>-->
-<!--                    <include name="test02"></include>-->
-<!--                    <include name="test03"></include>-->
-<!--                </methods>-->
-<!--            </class>-->
+            <class name="com.tester.cases.testReTry">
+                <methods>
+                    <include name="success"></include>
+                    <include name="fail"></include>
+                </methods>
+            </class>
+            <class name="com.tester.cases.ZenDao">
+                <methods>
+                    <include name="login"></include>
+                    <include name="test01"></include>
+                    <include name="test02"></include>
+                    <include name="test_addBug"></include>
+                </methods>
+            </class>
             <class name="com.tester.cases.JuHe_Api">
                 <methods>
                     <include name="LotteryResultsQuery"></include>
@@ -27,6 +33,14 @@
                     <include name="BookClassification"></include>
                 </methods>
             </class>
+            <class name="com.tester.cases.SystemTest">
+                <methods>
+                    <include name="login"></include>
+                    <include name="test_findAllProject"></include>
+                    <include name="test_upload"></include>
+                    <include name="test_addProject"></include>
+                </methods>
+            </class>
         </classes>
 
 
@@ -35,6 +49,9 @@
 
     <listeners>
         <listener class-name="com.tester.config.ExtentTestNGIReporterListener" />
+        <listener class-name="com.tester.utils.OverrideIAnnotationTransformer" />
     </listeners>
+    
+    
 
 </suite>
