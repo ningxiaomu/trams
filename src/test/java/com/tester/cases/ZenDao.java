@@ -39,6 +39,7 @@ public class ZenDao {
     //取登录用例的case
     @Test
     public void login() throws IOException {
+        System.out.println("Thread Id:"+Thread.currentThread().getId());
         String result = null;
         //建立session连接
         SqlSession session = DatabaseUtil.getSqlSession();
@@ -103,11 +104,13 @@ public class ZenDao {
     @Test(dependsOnMethods = "login")
     public void test01() throws IOException {
         flag= BaseClient.NeedLoginClient("testOne","ca5cde5183b111eaa51100163e0d8570",this.cookieStore);
+        System.out.println("Thread Id:"+Thread.currentThread().getId());
         Assert.assertTrue(flag);
     }
     @Test(dependsOnMethods = "login")
     public void test02() throws IOException{
         flag = BaseClient.NeedLoginClient("testOne","37b3c06c83e611eaa51100163e0d8570",this.cookieStore);
+        System.out.println("Thread Id:"+Thread.currentThread().getId());
         Assert.assertTrue(flag);
     }
 
@@ -115,6 +118,7 @@ public class ZenDao {
     @Test(dependsOnMethods = "login")
     public void test_addBug(){
         //提交bug 并添加附件
+        System.out.println("Thread Id:"+Thread.currentThread().getId());
         DefaultHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         long time = new Date().getTime();

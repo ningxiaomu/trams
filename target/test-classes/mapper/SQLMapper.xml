@@ -14,4 +14,9 @@
         inner join bb on cc.pcid = bb.pid
     </select>
 
+    <insert id="insertResult" parameterType="com.tester.domain.ResultSize" timeout="20">
+        INSERT ResultSize (id,TestTime,Passed,Failed,Skipped) values (replace(uuid(),'-',''),now(),#{Passed},#{Failed},#{Skipped})
+    </insert>
+
+
 </mapper>

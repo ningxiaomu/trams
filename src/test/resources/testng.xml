@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
 
-<suite name="ClientTest">
+<suite name="ClientTest" parallel="methods" thread-count="2">
 
     <test name="ClientTest">
         <classes>
@@ -50,6 +50,7 @@
     <listeners>
         <listener class-name="com.tester.config.ExtentTestNGIReporterListener" />
         <listener class-name="com.tester.utils.OverrideIAnnotationTransformer" />
+        <listener class-name="com.tester.config.GetResultSize"></listener>
     </listeners>
     
     

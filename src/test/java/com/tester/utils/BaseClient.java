@@ -21,6 +21,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -29,6 +30,8 @@ import java.nio.charset.Charset;
 import java.util.*;
 
 public class BaseClient {
+
+    private static final Logger log = Logger.getLogger(BaseClient.class);
 
 
     /**
@@ -67,6 +70,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200 ||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -89,6 +93,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -111,6 +116,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -157,6 +163,7 @@ public class BaseClient {
                     //判断返回的状态码
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -209,7 +216,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
-                        System.out.println("result:"+result);
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -235,7 +242,7 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200 ||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
-                        System.out.println("result:"+result);
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -260,8 +267,9 @@ public class BaseClient {
                     //判断响应状态码是200或者302
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
+                        log.info(caseid+"的result:"+result);
                     }else if(response.getStatusLine().getStatusCode()==500){
-                        System.out.println("状态码为：500");
+                        log.info("状态码为500");
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -310,7 +318,7 @@ public class BaseClient {
                     //判断返回的状态码
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         result = EntityUtils.toString(response.getEntity(),"UTF-8");
-                        System.out.println("result:"+result);
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -366,15 +374,15 @@ public class BaseClient {
                     System.out.println(response.getStatusLine().getStatusCode());
                     if(response.getStatusLine().getStatusCode()==200||response.getStatusLine().getStatusCode()==302){
                         HttpEntity he = response.getEntity();
-                        System.out.println("he:"+he);
+//                        System.out.println("he:"+he);
                         result = EntityUtils.toString(he,"UTF-8");
-                        System.out.println("json_result:"+result);
+                        log.info(caseid+"的result:"+result);
                     }else if(response.getStatusLine().getStatusCode()==500){
                         System.out.println("状态码为：500；测试失败");
                         HttpEntity he = response.getEntity();
                         System.out.println("he:"+he);
                         result = EntityUtils.toString(he,"UTF-8");
-                        System.out.println("json_result:"+result);
+                        log.info(caseid+"的result:"+result);
                     }
                 }catch (Exception e){
                     e.printStackTrace();
@@ -429,6 +437,7 @@ public class BaseClient {
                         System.out.println("Response content length: " + resEntity.getContentLength());
                         // 打印响应内容
                         System.out.println(EntityUtils.toString(resEntity, Charset.forName("UTF-8")));
+                        log.info(caseid+"的result:"+EntityUtils.toString(resEntity, Charset.forName("UTF-8")));
                     }
 
                     // 销毁

@@ -7,7 +7,7 @@ import org.testng.Reporter;
 //用例失败重跑
 public class OverrodeIReTry implements IRetryAnalyzer {
     public  int initReTryNum=1;
-    public  int maxReTryNum=5;
+    public  int maxReTryNum=3;
     @Override
     public boolean retry(ITestResult iTestResult) {
         if(initReTryNum<=maxReTryNum){

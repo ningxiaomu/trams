@@ -107,6 +107,7 @@ public class SystemTest {
     public void test_findAllProject() throws IOException {
         //查找项目接口
         flag= BaseClient.NeedLoginClient("testOne","139000f5889c11eaa51100163e0d8570",this.cookieStore);
+        System.out.println("Thread Id:"+Thread.currentThread().getId());
         Assert.assertTrue(flag);
     }
 
